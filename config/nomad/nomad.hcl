@@ -9,6 +9,7 @@ server {
   #license_path = "/etc/nomad.d/license.hclic"
   enabled          = true
   bootstrap_expect = 1
+  oidc_issuer = "http://127.0.0.1:4646"
 }
 
 client {
@@ -24,6 +25,19 @@ client {
 
 acl = {
   enabled = true
+}
+
+vault {
+  enabled = true
+  address = "http://127.0.0.1:8200"
+
+  jwt_auth_backend_path = "jwt"
+
+  # Nomad will mint a JWT for every task:
+  default_identity {
+    aud  = ["x17.space"]
+    ttl  = "24h"
+  }
 }
 
 plugin "docker" {
